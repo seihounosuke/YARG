@@ -8,16 +8,16 @@ import pandas as pd
 import urllib.parse
 import re
 import io
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # --- 初期設定 ---
 st.set_page_config(page_title="授業レポート生成AI (PoC)", layout="wide")
 
 # APIクライアント初期化 (新しいSDKの書き方)
-if "gemini" in st.secrets:
-    client = genai.Client(api_key=st.secrets["gemini"]["api_key"])
-else:
-    st.error("secrets.tomlにGemini APIキーが設定されていません。")
-    st.stop()
+client = genai.Client(api_key=os.environ.get("gemini_api_key"))
 
 
 # シート設定
@@ -25,7 +25,7 @@ else:
 def get_sheet_text(sheet_name):
     # 日本語シート名をURLエンコードしてCSV出力用URLを作成
     encoded_name = urllib.parse.quote(sheet_name)
-    url = f"https://docs.google.com/spreadsheets/d/{st.secrets["drive"]["shhets"]}/gviz/tq?tqx=out:csv&sheet={encoded_name}"
+    url = f"https://docs.google.com/spreadsheets/d/{os.environ.get("drive_shhets")}/gviz/tq?tqx=out:csv&sheet={encoded_name}"
     
     try:
         # CSVとして読み込み (ヘッダーなし)
@@ -54,7 +54,7 @@ def load_learning_data():
 def get_db_connection():
     """MySQLへの接続を確立する"""
     try:
-        connection = mysql.connector.connect(**st.secrets["mysql"])
+        connection = mysql.connector.connect(**st.secrets["mysql"])#secretsを使うのやめたから動かないけど、まあいまのとこいいか。
         return connection
     except Error as e:
         st.error(f"データベース接続エラー: {e}")
