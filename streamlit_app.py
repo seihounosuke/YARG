@@ -17,7 +17,7 @@ load_dotenv()
 st.set_page_config(page_title="授業レポート生成AI (PoC)", layout="wide")
 
 # APIクライアント初期化 (新しいSDKの書き方)
-client = genai.Client(api_key=os.environ.get("gemini_api_key"))
+client = genai.Client(api_key=os.environ.get("GEMINI_API_KEY"))
 
 
 # シート設定
@@ -25,7 +25,7 @@ client = genai.Client(api_key=os.environ.get("gemini_api_key"))
 def get_sheet_text(sheet_name):
     # 日本語シート名をURLエンコードしてCSV出力用URLを作成
     encoded_name = urllib.parse.quote(sheet_name)
-    url = f"https://docs.google.com/spreadsheets/d/{os.environ.get("drive_shhets")}/gviz/tq?tqx=out:csv&sheet={encoded_name}"
+    url = f"https://docs.google.com/spreadsheets/d/{os.environ.get('DRIVE_SHEETS')}/gviz/tq?tqx=out:csv&sheet={encoded_name}"
     
     try:
         # CSVとして読み込み (ヘッダーなし)
