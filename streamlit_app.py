@@ -142,9 +142,7 @@ def generate_report(media_file, student_id, unit_info, history_context, manual_t
     - 単元・課題: {unit_info}
     
     【指示】
-    アップロードされた授業の音声/動画データから、生徒の「反応」「躓いた箇所」「成長した点」を分析し、
-    本日の授業内容と組み合わせてレポートを執筆してください。
-    特に、過去の履歴で指摘されていた課題が今回どうだったかについても触れてください。
+    成約事項やマニュアルに記載の内容を遵守し、アップロードされた授業の音声/動画データから、保護者用レポートの「生徒の様子」(「反応」「躓いた箇所」「成長した点」)項目を作ってください。
     """
 
     # 一時ファイルとして保存してアップロード (Streamlitの仕様対応)
@@ -166,7 +164,7 @@ def generate_report(media_file, student_id, unit_info, history_context, manual_t
 
             # 生成実行 (新しいSDKの書き方)
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3-flash-preview",
                 contents=[
                     uploaded_content, # アップロードしたファイルオブジェクト
                     prompt
@@ -231,4 +229,4 @@ with col2:
 
 # フッター
 st.markdown("---")
-st.caption("Powered by Google Gemini 2.5 Flash | Dev: PoC Version 0.1")
+st.caption("Powered by Google Gemini 3 Flash | Dev: PoC Version 0.1")
